@@ -1,0 +1,59 @@
+name: Wingscape CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v3
+
+      # --- FRONTEND JOBS ---
+      - name: Setup Node.js for Frontend
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build Frontend Application
+        working-directory: ./frontend
+        run: npm run build
+
+      # --- BACKEND JOBS ---
+      - name: Setup Python for Backend
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: pip install -r requirements.txt
+
+      # Optionally, you can run tests here:
+      # - name: Run Backend Tests
+      #   working-directory: ./backend
+      #   run: python -m pytest
+      
+      # --- DOCKER BUILD CHECK ---
+      - name: Verify Full Stack Docker Build
+        run: docker-compose build
+
+      # --- CONTINUOUS DEPLOYMENT (CD) PLACEHOLDER ---
+      # To enable automatic deployments, uncomment and configure a deployment action:
+      #
+      # - name: Deploy to Production
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     echo "Deploying to server..."
+      #     # e.g., using ssh-action to run `docker-compose up -d` on remote server
+      #     # or pushing built Frontend to Vercel/Netlify.
