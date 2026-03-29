@@ -1,0 +1,21 @@
+{
+  "name": "wingscape_-main",
+  "version": "1.0.0",
+  "description": "Wingscape is a premium flight booking and emotion-based discovery platform. It features an emotionally intelligent search layer atop a high-performance booking engine, mapping travel decisions to user emotions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akshaya-NirmalKumar/Wingscape_.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Akshaya-NirmalKumar/Wingscape_/issues"
+  },
+  "homepage": "https://github.com/Akshaya-NirmalKumar/Wingscape_#readme"
+}
