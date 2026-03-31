@@ -51,15 +51,15 @@ export const searchFlights = (params) =>
 
 // ─── Bookings ─────────────────────────────────────────────────
 export const createBooking = (bookingData) =>
-  apiFetch("/booking/create", {
+  apiFetch("/bookings/create", {
     method: "POST",
     body: JSON.stringify(bookingData),
   });
 
-export const getUserBookings = () => apiFetch("/booking/user");
+export const getUserBookings = () => apiFetch("/bookings/user");
 
 export const getBookingById = (bookingId) =>
-  apiFetch(`/booking/${bookingId}`);
+  apiFetch(`/bookings/${bookingId}`);
 
 // ─── User / Dashboard ─────────────────────────────────────────
 export const getUserProfile = () => apiFetch("/user/profile");

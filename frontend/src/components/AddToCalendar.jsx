@@ -1,5 +1,9 @@
+import { downloadCalendarInvite } from "../utils/ticketing";
+
 export default function AddToCalendar({ booking }) {
     const handleAddToCalendar = () => {
+        downloadCalendarInvite(booking);
+        return;
         const { pnrcode = "N/A", flight_details, passengers = [] } = booking;
         const fd = flight_details || {};
         const {
