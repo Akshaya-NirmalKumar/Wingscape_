@@ -56,43 +56,6 @@ To run the application locally, make sure you have Docker and Docker Compose ins
 
 For detailed insights into the architecture, backend logic, schemas, and extensive developer guides, please refer to the [Wingscape Official Documentation](Wingscape_Official_Documentation.md).
 
-## Deployment
-
-Wingscape is a split-stack app:
-
-* `frontend/` should be deployed as a static site
-* `backend/` should be deployed as a Python web service
-
-Recommended setup:
-
-1. Deploy the backend to Render.
-   Use [render.yaml](render.yaml) or create a Render web service manually with:
-   * Root directory: `backend`
-   * Build command: `pip install -r requirements.txt`
-   * Start command: `gunicorn app:app --bind 0.0.0.0:$PORT`
-   * Health check path: `/health`
-
-2. Set backend environment variables:
-   * `MONGO_URI`
-   * `JWT_SECRET_KEY`
-   * `CORS_ORIGINS`
-     Example: `https://wingscape.netlify.app,https://your-site-name.netlify.app`
-
-3. Deploy the frontend to Netlify.
-   This repo includes [netlify.toml](netlify.toml) with:
-   * Base directory: `frontend`
-   * Build command: `npm run build`
-   * Publish directory: `dist`
-   * SPA redirect to `index.html`
-
-4. Set the Netlify frontend environment variable:
-   * `VITE_API_URL`
-     Example: `https://your-render-service.onrender.com/api`
-
-5. Trigger a new Netlify deploy after saving the environment variable.
-
-Without `VITE_API_URL`, the deployed frontend will try to call `/api` on the same host, which will not work on Netlify for this Flask backend.
-
 ## 📄 License
 
 This project is open-source and available under the terms of the MIT License.

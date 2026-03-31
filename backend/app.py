@@ -1,8 +1,6 @@
-import logging
-import os
-
 from flask import Flask, jsonify
 from flask_cors import CORS
+import logging
 
 try:
     from .blueprints.auth import auth_bp
@@ -18,19 +16,9 @@ except ImportError:
     from blueprints.emotion import emotion_bp
 
 app = Flask(__name__)
-
-cors_origins = [
-    origin.strip()
-    for origin in os.getenv(
-        "CORS_ORIGINS",
-        "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000",
-    ).split(",")
-    if origin.strip()
-]
-
 CORS(
     app,
-    origins=cors_origins,
+    origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000"],
     methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "Accept"],
     expose_headers=["Content-Type", "Authorization"],
@@ -43,7 +31,7 @@ logging.basicConfig(level=logging.INFO)
 def add_cors_headers(response):
     origin = response.headers.get("Access-Control-Allow-Origin")
     if not origin:
-        response.headers["Access-Control-Allow-Origin"] = cors_origins[0]
+        response.headers["Access-Control-Allow-Origin"] = "http://localhost:5173"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept"
     response.headers["Access-Control-Allow-Credentials"] = "true"

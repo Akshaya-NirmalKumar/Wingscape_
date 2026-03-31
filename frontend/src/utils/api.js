@@ -1,4 +1,4 @@
-const BASE_URL = (import.meta.env.VITE_API_URL || "/api").replace(/\/+$/, "");
+const BASE_URL = import.meta.env.VITE_API_URL || "/api";
 
 // ─── Core fetch wrapper ───────────────────────────────────────
 const apiFetch = async (endpoint, options = {}) => {
