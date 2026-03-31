@@ -21,7 +21,7 @@ const Login = () => {
       await login(email, password);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to login');
+      setError(err.message || 'Failed to login');
     } finally {
       setLoading(false);
     }
@@ -47,6 +47,7 @@ const Login = () => {
               value={email} 
               onChange={(e) => setEmail(e.target.value)}
               className="form-input"
+              autoComplete="email"
               required
             />
           </div>
@@ -57,6 +58,7 @@ const Login = () => {
               value={password} 
               onChange={(e) => setPassword(e.target.value)}
               className="form-input"
+              autoComplete="current-password"
               required
             />
           </div>
@@ -74,4 +76,3 @@ const Login = () => {
 };
 
 export default Login;
-

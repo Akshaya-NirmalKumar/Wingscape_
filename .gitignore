@@ -160,6 +160,7 @@ venv.bak/
 .coverage
 htmlcov/
 pytest.xml
+backend/localdb.json
 
 # IDE
 .vscode/

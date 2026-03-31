@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from bson import ObjectId
 
 try:
     from ..models import flights_collection, airports_collection, destinations_collection
@@ -36,9 +37,22 @@ def get_all_destinations():
 
 @search_bp.route('/flights/search', methods=['GET'])
 def search_flights():
+    flight_id = request.args.get('flight_id')
     origin = request.args.get('origin')
     destination = request.args.get('destination')
-    
+
+    if flight_id:
+        try:
+            flight = flights_collection.find_one({"_id": ObjectId(flight_id)})
+        except Exception:
+            flight = None
+
+        if not flight:
+            return jsonify({"error": "Flight not found"}), 404
+
+        flight["_id"] = str(flight["_id"])
+        return jsonify(flight), 200
+
     query = {}
     if origin:
         query["origin"] = origin.upper()

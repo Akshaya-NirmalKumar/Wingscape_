@@ -17,7 +17,7 @@ import Dashboard from './pages/Dashboard';
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <div className="app-container">
           <Navbar />
           
@@ -44,4 +44,3 @@ function App() {
 }
 
 export default App;
-

@@ -9,13 +9,14 @@ emotion_bp = Blueprint('emotion', __name__)
 
 @emotion_bp.route('/', methods=['GET'])
 def get_emotions():
-    pipeline = [
-        {"$unwind": "$emotion_tags"},
-        {"$group": {"_id": "$emotion_tags"}},
-        {"$project": {"_id": 0, "emotion": "$_id"}}
-    ]
-    emotions = list(destinations_collection.aggregate(pipeline))
-    return jsonify([e['emotion'] for e in emotions]), 200
+    emotions = sorted(
+        {
+            emotion
+            for destination in destinations_collection.find({})
+            for emotion in destination.get("emotion_tags", [])
+        }
+    )
+    return jsonify(emotions), 200
 
 @emotion_bp.route('/<emotion>/destinations', methods=['GET'])
 def get_destinations_by_emotion(emotion):

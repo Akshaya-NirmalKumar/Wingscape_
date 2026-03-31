@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import api from '../utils/api';
+import { getUserBookings, getUserProfile } from '../utils/api';
 import { AuthContext } from '../context/AuthContext';
 import { Plane, Tag, User, Clock, Wallet, CheckCircle, Navigation, AlertTriangle, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -19,16 +19,15 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
-        const [bookingsRes, profileRes, alertsRes] = await Promise.all([
-          api.get('/bookings/user'),
-          api.get('/user/profile'),
-          api.get('/user/alerts')
+        const [bookingsData, profileData] = await Promise.all([
+          getUserBookings(),
+          getUserProfile(),
         ]);
-        setBookings(bookingsRes.data);
-        setProfile(profileRes.data);
-        setAlerts(alertsRes.data);
+        setBookings(Array.isArray(bookingsData) ? bookingsData : []);
+        setProfile(profileData);
+        setAlerts([]);
       } catch (err) {
-        setError('Failed to fetch dashboard data.');
+        setError(err.message || 'Failed to fetch dashboard data.');
       }
       setLoading(false);
     };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import api from '../utils/api';
+import { createBooking, getFlightById } from '../utils/api';
 import { Plane, CheckCircle, AlertCircle, ShoppingBag, Heart, Shield, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -26,14 +26,10 @@ const BookingDetails = () => {
   useEffect(() => {
     const fetchFlight = async () => {
       try {
-        const res = await api.get(`/flights/search?flight_id=${flightId}`); // MOCK fetching by ID for now 
-        // Actual robust api route should just get single flight, we'll iterate through all for now if no specific route
-        const globalRes = await api.get('/flights/search');
-        const found = globalRes.data.find(f => f._id === flightId);
-        if (found) setFlight(found);
-        else setError('Flight not found');
+        const found = await getFlightById(flightId);
+        setFlight(found);
       } catch (err) {
-        setError('Failed to fetch flight details');
+        setError(err.message || 'Failed to fetch flight details');
       }
       setLoading(false);
     };
@@ -69,10 +65,10 @@ const BookingDetails = () => {
         total_price: total
       };
 
-      const res = await api.post('/bookings/create', payload);
-      navigate(`/confirmation/${res.data._id}`);
+      const booking = await createBooking(payload);
+      navigate(`/confirmation/${booking._id}`);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to complete booking. Please try again.');
+      setError(err.message || 'Failed to complete booking. Please try again.');
     }
     setBookingLoading(false);
   };
@@ -98,20 +94,20 @@ const BookingDetails = () => {
               
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                 <div>
-                  <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Full Name</label>
-                  <input type="text" className="form-input" required value={p.name} onChange={(e) => handlePassengerChange(i, 'name', e.target.value)} placeholder="As shown on passport" />
+                  <label htmlFor={`passenger-${i}-name`} className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Full Name</label>
+                  <input id={`passenger-${i}-name`} name={`passenger-${i}-name`} type="text" className="form-input" required value={p.name} onChange={(e) => handlePassengerChange(i, 'name', e.target.value)} placeholder="As shown on passport" autoComplete="name" />
                 </div>
                 <div>
-                  <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Email Address</label>
-                  <input type="email" className="form-input" required value={p.email} onChange={(e) => handlePassengerChange(i, 'email', e.target.value)} />
+                  <label htmlFor={`passenger-${i}-email`} className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Email Address</label>
+                  <input id={`passenger-${i}-email`} name={`passenger-${i}-email`} type="email" className="form-input" required value={p.email} onChange={(e) => handlePassengerChange(i, 'email', e.target.value)} autoComplete="email" />
                 </div>
                 <div>
-                  <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Phone Number</label>
-                  <input type="tel" className="form-input" required value={p.phone} onChange={(e) => handlePassengerChange(i, 'phone', e.target.value)} />
+                  <label htmlFor={`passenger-${i}-phone`} className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Phone Number</label>
+                  <input id={`passenger-${i}-phone`} name={`passenger-${i}-phone`} type="tel" className="form-input" required value={p.phone} onChange={(e) => handlePassengerChange(i, 'phone', e.target.value)} autoComplete="tel" />
                 </div>
                 <div>
-                  <label className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Passport Number (Optional)</label>
-                  <input type="text" className="form-input" value={p.passport} onChange={(e) => handlePassengerChange(i, 'passport', e.target.value)} />
+                  <label htmlFor={`passenger-${i}-passport`} className="text-muted" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Passport Number (Optional)</label>
+                  <input id={`passenger-${i}-passport`} name={`passenger-${i}-passport`} type="text" className="form-input" value={p.passport} onChange={(e) => handlePassengerChange(i, 'passport', e.target.value)} autoComplete="off" />
                 </div>
               </div>
             </div>

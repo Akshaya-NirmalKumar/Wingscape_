@@ -164,7 +164,10 @@ export const downloadETicket = (booking) => {
   doc.text("Thank you for choosing Wingscape. Safe travels!", 15, 274);
   doc.text("Please present this e-ticket during check-in.", 15, 280);
 
-  doc.save(`wingscape-eticket-${safeText(booking.pnrcode, "booking")}.pdf`);
+  triggerDownload(
+    doc.output("blob"),
+    `wingscape-eticket-${safeText(booking.pnrcode, "booking")}.pdf`
+  );
 };
 
 export const downloadCalendarInvite = (booking) => {

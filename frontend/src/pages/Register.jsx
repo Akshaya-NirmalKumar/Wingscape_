@@ -22,7 +22,7 @@ const Register = () => {
       await register(name, email, password);
       navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to register');
+      setError(err.message || 'Failed to register');
     } finally {
       setLoading(false);
     }
@@ -48,6 +48,7 @@ const Register = () => {
               value={name} 
               onChange={(e) => setName(e.target.value)}
               className="form-input"
+              autoComplete="name"
               required
             />
           </div>
@@ -58,6 +59,7 @@ const Register = () => {
               value={email} 
               onChange={(e) => setEmail(e.target.value)}
               className="form-input"
+              autoComplete="email"
               required
             />
           </div>
@@ -68,6 +70,7 @@ const Register = () => {
               value={password} 
               onChange={(e) => setPassword(e.target.value)}
               className="form-input"
+              autoComplete="new-password"
               required
               minLength={6}
             />
@@ -86,4 +89,3 @@ const Register = () => {
 };
 
 export default Register;
-

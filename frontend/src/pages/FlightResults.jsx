@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import api from '../utils/api';
+import { searchFlights } from '../utils/api';
 import FlightCard from '../components/FlightCard';
 import { Filter, ArrowLeft, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -22,13 +22,11 @@ const FlightResults = () => {
       setLoading(true);
       setError('');
       try {
-        const queryParams = [];
-        if (origin) queryParams.push(`origin=${origin}`);
-        if (destination) queryParams.push(`destination=${destination}`);
-        const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
-        
-        const res = await api.get(`/flights/search${queryString}`);
-        setFlights(res.data);
+        const results = await searchFlights({
+          ...(origin ? { origin } : {}),
+          ...(destination ? { destination } : {}),
+        });
+        setFlights(Array.isArray(results) ? results : []);
       } catch (err) {
         setError('Failed to fetch flights.');
       }
@@ -65,14 +63,14 @@ const FlightResults = () => {
         <div style={{ width: '250px', flexShrink: 0 }} className="glass-panel">
           <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--glass-border)' }}>
             <h3 className="font-semibold" style={{ marginBottom: '1rem' }}>Stops</h3>
-            <label style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input type="checkbox" /> Direct</label>
-            <label style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input type="checkbox" /> 1 Stop</label>
-            <label style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input type="checkbox" /> 2+ Stops</label>
+            <label htmlFor="stops-direct" style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input id="stops-direct" name="stops-direct" type="checkbox" /> Direct</label>
+            <label htmlFor="stops-one" style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input id="stops-one" name="stops-one" type="checkbox" /> 1 Stop</label>
+            <label htmlFor="stops-two-plus" style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input id="stops-two-plus" name="stops-two-plus" type="checkbox" /> 2+ Stops</label>
           </div>
           <div style={{ padding: '1.5rem' }}>
             <h3 className="font-semibold" style={{ marginBottom: '1rem' }}>Airlines</h3>
-            <label style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input type="checkbox" /> Wingscape Air</label>
-            <label style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input type="checkbox" /> Global Jet</label>
+            <label htmlFor="airline-wingscape" style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input id="airline-wingscape" name="airline-wingscape" type="checkbox" /> Wingscape Air</label>
+            <label htmlFor="airline-global-jet" style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}><input id="airline-global-jet" name="airline-global-jet" type="checkbox" /> Global Jet</label>
           </div>
         </div>
 
