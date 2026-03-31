@@ -1,6 +1,9 @@
 import { jsPDF } from "jspdf";
+import { downloadETicket } from "../utils/ticketing";
 export default function DownloadETicket({ booking }) {
     const handleDownload = () => {
+        downloadETicket(booking);
+        return;
         const doc = new jsPDF();
         const {
             pnrcode = "N/A",

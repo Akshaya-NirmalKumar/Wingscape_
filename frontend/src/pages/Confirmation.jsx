@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getBookingById } from '../utils/api';
-import { CheckCircle, Download, Calendar, ArrowRight, PlaneTakeoff } from 'lucide-react';
+import { CheckCircle, ArrowRight, PlaneTakeoff } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { jsPDF } from 'jspdf';
+import DownloadETicket from '../components/DownloadETicket';
+import AddToCalendar from '../components/AddToCalendar';
 
 const Confirmation = () => {
   const { bookingId } = useParams();
@@ -272,12 +273,8 @@ const Confirmation = () => {
 
         {/* Action buttons */}
         <div style={{ display: 'flex', gap: '1rem', marginTop: '3rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <button className="btn btn-secondary" onClick={handleDownloadTicket}>
-            <Download size={18} /> Download E-Ticket
-          </button>
-          <button className="btn btn-secondary" onClick={handleAddToCalendar}>
-            <Calendar size={18} /> Add to Calendar
-          </button>
+          <DownloadETicket booking={booking} />
+          <AddToCalendar booking={booking} />
           <Link to="/dashboard" className="btn">
             Go to My Trips <ArrowRight size={18} />
           </Link>
