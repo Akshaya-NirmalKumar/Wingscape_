@@ -1,8 +1,26 @@
 import os
-from models import users_collection, destinations_collection, flights_collection, bookings_collection, airports_collection, price_alerts_collection
 from bson import ObjectId
 import random
 from datetime import datetime, timedelta
+
+try:
+    from .models import (
+        users_collection,
+        destinations_collection,
+        flights_collection,
+        bookings_collection,
+        airports_collection,
+        price_alerts_collection,
+    )
+except ImportError:
+    from models import (
+        users_collection,
+        destinations_collection,
+        flights_collection,
+        bookings_collection,
+        airports_collection,
+        price_alerts_collection,
+    )
 
 def create_airports():
     airports = [

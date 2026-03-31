@@ -1,6 +1,11 @@
 import os
-from seed import seed_data
-from app import app
+
+try:
+    from .seed import seed_data
+    from .app import app
+except ImportError:
+    from seed import seed_data
+    from app import app
 
 # Ensure database is seeded on startup
 seed_data()

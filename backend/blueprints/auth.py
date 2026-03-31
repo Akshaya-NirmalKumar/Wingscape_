@@ -1,9 +1,13 @@
 from flask import Blueprint, request, jsonify
-from models import users_collection
 import bcrypt
 import jwt
 import os
 import datetime
+
+try:
+    from ..models import users_collection
+except ImportError:
+    from models import users_collection
 
 auth_bp = Blueprint('auth', __name__)
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "super-secret-key-wingscape-123")

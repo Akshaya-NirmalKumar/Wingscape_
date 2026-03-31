@@ -1,5 +1,9 @@
 from flask import Blueprint, jsonify
-from models import destinations_collection
+
+try:
+    from ..models import destinations_collection
+except ImportError:
+    from models import destinations_collection
 
 emotion_bp = Blueprint('emotion', __name__)
 

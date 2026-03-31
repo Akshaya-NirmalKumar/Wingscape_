@@ -1,8 +1,13 @@
 from flask import Blueprint, request, jsonify
-from models import users_collection, price_alerts_collection
-from middleware import token_required
 from bson import ObjectId
 import logging
+
+try:
+    from ..models import users_collection, price_alerts_collection
+    from ..middleware import token_required
+except ImportError:
+    from models import users_collection, price_alerts_collection
+    from middleware import token_required
 
 user_bp = Blueprint('user', __name__)
 

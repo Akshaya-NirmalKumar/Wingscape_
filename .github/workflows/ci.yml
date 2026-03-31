@@ -2,9 +2,9 @@ name: Windscape CI/CD Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, master, develop]
   pull_request:
-    branches: [main, develop]
+    branches: [main, master, develop]
 
 env:
   NODE_VERSION: "20"
@@ -68,8 +68,7 @@ jobs:
           pip install -r backend/requirements.txt pytest
 
       - name: Run backend smoke tests
-        working-directory: backend
-        run: pytest tests -q --ignore=tests/e2e || echo "No backend tests found, skipping"
+        run: python -m pytest backend/tests -q
 
   # ─────────────────────────────────────────
   # Stage 2: Build & Containerize

@@ -1,5 +1,8 @@
 from flask import Blueprint, request, jsonify
-from models import destinations_collection, flights_collection
+try:
+    from ..models import destinations_collection, flights_collection
+except ImportError:
+    from models import destinations_collection, flights_collection
 from bson import ObjectId
 
 travel_bp = Blueprint('travel', __name__)

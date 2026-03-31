@@ -2,11 +2,18 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import logging
 
-from blueprints.auth import auth_bp
-from blueprints.search import search_bp
-from blueprints.booking import booking_bp
-from blueprints.user import user_bp
-from blueprints.emotion import emotion_bp
+try:
+    from .blueprints.auth import auth_bp
+    from .blueprints.search import search_bp
+    from .blueprints.booking import booking_bp
+    from .blueprints.user import user_bp
+    from .blueprints.emotion import emotion_bp
+except ImportError:
+    from blueprints.auth import auth_bp
+    from blueprints.search import search_bp
+    from blueprints.booking import booking_bp
+    from blueprints.user import user_bp
+    from blueprints.emotion import emotion_bp
 
 app = Flask(__name__)
 CORS(app)

@@ -1,9 +1,13 @@
 from functools import wraps
 from flask import request, jsonify
 import jwt
-from models import users_collection
 from bson import ObjectId
 import os
+
+try:
+    from .models import users_collection
+except ImportError:
+    from models import users_collection
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "super-secret-key-wingscape-123")
 

@@ -1,9 +1,14 @@
 from flask import Blueprint, request, jsonify
-from models import bookings_collection, flights_collection, users_collection
-from middleware import token_required
 from bson import ObjectId
 import uuid
 import logging
+
+try:
+    from ..models import bookings_collection, flights_collection, users_collection
+    from ..middleware import token_required
+except ImportError:
+    from models import bookings_collection, flights_collection, users_collection
+    from middleware import token_required
 
 booking_bp = Blueprint('booking', __name__)
 

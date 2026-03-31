@@ -1,5 +1,9 @@
 from flask import Blueprint, request, jsonify
-from models import flights_collection, airports_collection, destinations_collection
+
+try:
+    from ..models import flights_collection, airports_collection, destinations_collection
+except ImportError:
+    from models import flights_collection, airports_collection, destinations_collection
 
 search_bp = Blueprint('search', __name__)
 
