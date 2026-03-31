@@ -1,12 +1,13 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "/api";
 
 // ─── Core fetch wrapper ───────────────────────────────────────
 const apiFetch = async (endpoint, options = {}) => {
   const token = localStorage.getItem("token");
+  const hasBody = options.body !== undefined && options.body !== null;
 
   const headers = {
-    "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(hasBody ? { "Content-Type": "application/json" } : {}),
     ...options.headers,
   };
 
@@ -23,10 +24,17 @@ const apiFetch = async (endpoint, options = {}) => {
     return;
   }
 
-  const data = await response.json();
+  const contentType = response.headers.get("content-type") || "";
+  const data = contentType.includes("application/json")
+    ? await response.json()
+    : await response.text();
 
   if (!response.ok) {
-    throw new Error(data.error || "Something went wrong");
+    throw new Error(
+      typeof data === "object" && data !== null
+        ? data.error || "Something went wrong"
+        : data || "Something went wrong"
+    );
   }
 
   return data;
