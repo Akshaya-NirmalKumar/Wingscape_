@@ -1,0 +1,10 @@
+{
+  "name": "wingscape-backend",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "python app.py",
+    "start": "python run.py",
+    "test": "pytest tests -q"
+  }
+}
