@@ -55,10 +55,10 @@ export const registerUser = (name, email, password) =>
 
 // ─── Flights ──────────────────────────────────────────────────
 export const searchFlights = (params) =>
-  apiFetch(`/search/flights?${new URLSearchParams(params)}`);
+  apiFetch(`/flights/search?${new URLSearchParams(params)}`);
 
 export const getFlightById = (flightId) =>
-  apiFetch(`/search/flights?${new URLSearchParams({ flight_id: flightId })}`);
+  apiFetch(`/flights/search?${new URLSearchParams({ flight_id: flightId })}`);
 
 // ─── Bookings ─────────────────────────────────────────────────
 export const createBooking = (bookingData) =>
