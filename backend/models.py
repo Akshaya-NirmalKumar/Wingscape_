@@ -6,7 +6,7 @@ load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://database:27017/")
 client = MongoClient(MONGO_URI)
-db = client["wingscape_db"]
+db = client["Wingscape"]
 
 # Collections
 users_collection = db["users"]

@@ -10,7 +10,10 @@ services:
       - mongo_data:/data/db
 
   backend:
-    build: ./backend
+    image: wingscape-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: wingscape_backend
     ports:
       - "5000:5000"
@@ -22,7 +25,10 @@ services:
     restart: always
 
   frontend:
-    build: ./frontend
+    image: wingscape-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: wingscape_frontend
     ports:
       - "5173:80"
