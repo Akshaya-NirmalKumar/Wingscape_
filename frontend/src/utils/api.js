@@ -49,6 +49,9 @@ export const registerUser = (name, email, password) =>
 export const searchFlights = (params) =>
   apiFetch(`/search/flights?${new URLSearchParams(params)}`);
 
+export const getFlightById = (flightId) =>
+  apiFetch(`/search/flights?${new URLSearchParams({ flight_id: flightId })}`);
+
 // ─── Bookings ─────────────────────────────────────────────────
 export const createBooking = (bookingData) =>
   apiFetch("/bookings/create", {
