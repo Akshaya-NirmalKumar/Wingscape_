@@ -2,7 +2,12 @@ import { jsPDF } from "jspdf";
 import { downloadETicket } from "../utils/ticketing";
 export default function DownloadETicket({ booking }) {
     const handleDownload = () => {
-        downloadETicket(booking);
+        try {
+            downloadETicket(booking);
+        } catch (error) {
+            console.error("Failed to download e-ticket", error);
+            window.alert("Unable to download e-ticket right now.");
+        }
         return;
         const doc = new jsPDF();
         const {
@@ -122,6 +127,7 @@ export default function DownloadETicket({ booking }) {
     return (
         <button
             onClick={handleDownload}
+            type="button"
             style={{
                 padding: "10px 22px",
                 backgroundColor: "#DC5038",

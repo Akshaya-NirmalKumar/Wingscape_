@@ -2,7 +2,12 @@ import { downloadCalendarInvite } from "../utils/ticketing";
 
 export default function AddToCalendar({ booking }) {
     const handleAddToCalendar = () => {
-        downloadCalendarInvite(booking);
+        try {
+            downloadCalendarInvite(booking);
+        } catch (error) {
+            console.error("Failed to add booking to calendar", error);
+            window.alert("Unable to create the calendar file right now.");
+        }
         return;
         const { pnrcode = "N/A", flight_details, passengers = [] } = booking;
         const fd = flight_details || {};
@@ -64,6 +69,7 @@ export default function AddToCalendar({ booking }) {
     return (
         <button
             onClick={handleAddToCalendar}
+            type="button"
             style={{
                 padding: "10px 22px",
                 backgroundColor: "#ffffff",
